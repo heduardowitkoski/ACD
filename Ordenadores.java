@@ -1,13 +1,34 @@
-public class Ordenadores {
+package teste;
 
-    // Método estático para ordenar um array usando Bubble Sort
-    public static <T extends Comparable<T>> void bubbleSort(T[] array) {
+public class Ordenadores{
+
+    /*public static void main(String[] args)
+    {
+        Integer[] vetor = {2, 4, 5, 1, 12, 9, 7};
+        System.out.printf("Vetor antes da ordenação:\n");
+        for (Integer vetor1 : vetor) {
+            System.out.printf("|%d", vetor1);
+        }
+        System.out.println("|");
+        
+        selectionsort(vetor);
+        
+        System.out.printf("\nVetor após da ordenação:\n");
+        for (Integer vetor1 : vetor) {
+            System.out.printf("|%d", vetor1);
+        }
+        System.out.println("|");
+        
+    }*/
+    
+    
+    // Bubble Sort
+    public static <T extends Comparable<T>> void bubblesort(T[] array) {
         int n = array.length;
         boolean swapped;
-
         for (int i = 0; i < n - 1; i++) {
             swapped = false;
-            for (int j = 0; j < n - 1 - i; j++) {
+            for (int j = 0; j < n - i - 1; j++) {
                 if (array[j].compareTo(array[j + 1]) > 0) {
                     T temp = array[j];
                     array[j] = array[j + 1];
@@ -15,14 +36,12 @@ public class Ordenadores {
                     swapped = true;
                 }
             }
-            if (!swapped) {
-                break;
-            }
+            if (!swapped) break;
         }
     }
 
-    // Método estático para ordenar um array usando Selection Sort
-    public static <T extends Comparable<T>> void selectionSort(T[] array) {
+    // Selection Sort
+    public static <T extends Comparable<T>> void selectionsort(T[] array) {
         int n = array.length;
         for (int i = 0; i < n - 1; i++) {
             int minIndex = i;
@@ -31,29 +50,26 @@ public class Ordenadores {
                     minIndex = j;
                 }
             }
-            if (minIndex != i) {
-                T temp = array[i];
-                array[i] = array[minIndex];
-                array[minIndex] = temp;
-            }
+            T temp = array[minIndex];
+            array[minIndex] = array[i];
+            array[i] = temp;
         }
     }
 
-    // Método estático para ordenar um array usando Heap Sort
-    public static <T extends Comparable<T>> void heapSort(T[] array) {
+    // Heap Sort
+    public static <T extends Comparable<T>> void heapsort(T[] array) {
         int n = array.length;
 
-        // Constrói o heap máximo
+        // Construir o heap (reorganizar o array)
         for (int i = n / 2 - 1; i >= 0; i--) {
             heapify(array, n, i);
         }
 
-        // Extrai elementos do heap um por um
+        // Extrair elementos do heap um por um
         for (int i = n - 1; i > 0; i--) {
             T temp = array[0];
             array[0] = array[i];
             array[i] = temp;
-
             heapify(array, i, 0);
         }
     }
@@ -75,18 +91,16 @@ public class Ordenadores {
             T swap = array[i];
             array[i] = array[largest];
             array[largest] = swap;
-
             heapify(array, n, largest);
         }
     }
 
-    // Método estático para ordenar um array usando Quick Sort
-    public static <T extends Comparable<T>> void quickSort(T[] array, int low, int high) {
+    // Quick Sort
+    public static <T extends Comparable<T>> void quicksort(T[] array, int low, int high) {
         if (low < high) {
             int pi = partition(array, low, high);
-
-            quickSort(array, low, pi - 1);
-            quickSort(array, pi + 1, high);
+            quicksort(array, low, pi - 1);
+            quicksort(array, pi + 1, high);
         }
     }
 
@@ -97,7 +111,6 @@ public class Ordenadores {
         for (int j = low; j < high; j++) {
             if (array[j].compareTo(pivot) <= 0) {
                 i++;
-
                 T temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
@@ -111,25 +124,15 @@ public class Ordenadores {
         return i + 1;
     }
 
-    // Método estático para ordenar um array de inteiros usando Radix Sort
-    public static void radixSort(int[] array) {
+    // Radix Sort (aplicável apenas para arrays de inteiros)
+    public static void radixsort(int[] array) {
         int max = getMax(array);
         for (int exp = 1; max / exp > 0; exp *= 10) {
-            countingSortByDigit(array, exp);
+            countSort(array, exp);
         }
     }
 
-    private static int getMax(int[] array) {
-        int max = array[0];
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] > max) {
-                max = array[i];
-            }
-        }
-        return max;
-    }
-
-    private static void countingSortByDigit(int[] array, int exp) {
+    private static void countSort(int[] array, int exp) {
         int n = array.length;
         int[] output = new int[n];
         int[] count = new int[10];
@@ -143,82 +146,20 @@ public class Ordenadores {
         }
 
         for (int i = n - 1; i >= 0; i--) {
-            int digit = (array[i] / exp) % 10;
-            output[count[digit] - 1] = array[i];
-            count[digit]--;
+            output[count[(array[i] / exp) % 10] - 1] = array[i];
+            count[(array[i] / exp) % 10]--;
         }
 
-        for (int i = 0; i < n; i++) {
-            array[i] = output[i];
-        }
+        System.arraycopy(output, 0, array, 0, n);
     }
 
-    // Método para testar os algoritmos de ordenação
-    public static void main(String[] args) {
-        Integer[] arrayHeap = {5, 1, 4, 2, 8};
-        Integer[] arrayQuick = {5, 1, 4, 2, 8};
-        int[] arrayRadix = {170, 45, 75, 90, 802, 24, 2, 66};
-        Integer[] arrayBubble = {5, 1, 4, 2, 8};
-        Integer[] arraySelection = {5, 1, 4, 2, 8};
-
-        System.out.println("Array antes da ordenação (Bubble Sort):");
-        for (int num : arrayBubble) {
-            System.out.print(num + " ");
+    private static int getMax(int[] array) {
+        int max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
         }
-
-        bubbleSort(arrayBubble);
-
-        System.out.println("\nArray após a ordenação (Bubble Sort):");
-        for (int num : arrayBubble) {
-            System.out.print(num + " ");
-        }
-
-        System.out.println("\n\nArray antes da ordenação (Selection Sort):");
-        for (int num : arraySelection) {
-            System.out.print(num + " ");
-        }
-
-        selectionSort(arraySelection);
-
-        System.out.println("\nArray após a ordenação (Selection Sort):");
-        for (int num : arraySelection) {
-            System.out.print(num + " ");
-        
-        
-        System.out.println("Array antes da ordenação (Heap Sort):");
-        for (int num1 : arrayHeap) {
-            System.out.print(num1 + " ");
-        }
-
-        heapSort(arrayHeap);
-
-        System.out.println("\nArray após a ordenação (Heap Sort):");
-        for (int num2 : arrayHeap) {
-            System.out.print(num2 + " ");
-        }
-
-        System.out.println("\n\nArray antes da ordenação (Quick Sort):");
-        for (int num3 : arrayQuick) {
-            System.out.print(num3 + " ");
-        }
-
-        quickSort(arrayQuick, 0, arrayQuick.length - 1);
-
-        System.out.println("\nArray após a ordenação (Quick Sort):");
-        for (int num4 : arrayQuick) {
-            System.out.print(num4 + " ");
-        }
-
-        System.out.println("\n\nArray antes da ordenação (Radix Sort):");
-        for (int num5 : arrayRadix) {
-            System.out.print(num5 + " ");
-        }
-
-        radixSort(arrayRadix);
-
-        System.out.println("\nArray após a ordenação (Radix Sort):");
-        for (int num6 : arrayRadix) {
-            System.out.print(num6 + " ");
-        }
+        return max;
     }
-}}
+}
