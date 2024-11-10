@@ -97,6 +97,11 @@ public class Main {
                     System.out.println("3 - Heap Sort");
                     System.out.println("4 - Quick Sort");
                     System.out.println("5 - Radix Sort");
+                    System.out.println("6 - Insertion Sort");
+                    System.out.println("7 - Shell Sort");
+                    System.out.println("8 - Counting Sort");
+                    System.out.println("9 - Merge Sort");
+                    System.out.println("10 - Bucket Sort");
                     int algoritmo = scanner.nextInt();
 
                     switch (algoritmo) {
@@ -128,6 +133,26 @@ public class Main {
                                 }
                             };
                             algoritmoNome = "Radix Sort";
+                            break;
+                         case 6:
+                            metodoOrdenacao = Ordenadores::insertionsort;
+                            algoritmoNome = "Insertion Sort";
+                            break;
+                         case 7:
+                            metodoOrdenacao = Ordenadores::shellsort;
+                            algoritmoNome = "Shell Sort";
+                            break;
+                         case 8:
+                            metodoOrdenacao = Ordenadores::countingsort;
+                            algoritmoNome = "Counting Sort";
+                            break;
+                         case 9:
+                            metodoOrdenacao = Ordenadores::mergesort;
+                            algoritmoNome = "Merge Sort";
+                            break;   
+                         case 10:
+                            metodoOrdenacao = Ordenadores::bucketsort;
+                            algoritmoNome = "Bucket Sort";
                             break;
                         default:
                             System.out.println("Opção inválida.");
