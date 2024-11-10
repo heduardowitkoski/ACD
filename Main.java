@@ -1,4 +1,4 @@
-package teste;
+package acdtrabalho1;
 
 import java.util.Scanner;
 import java.util.Random;
@@ -96,6 +96,7 @@ public class Main {
                     System.out.println("2 - Selection Sort");
                     System.out.println("3 - Heap Sort");
                     System.out.println("4 - Quick Sort");
+                    System.out.println("5 - Radix Sort");
                     int algoritmo = scanner.nextInt();
 
                     switch (algoritmo) {
@@ -114,6 +115,19 @@ public class Main {
                         case 4:
                             metodoOrdenacao = (arr) -> Ordenadores.quicksort(arr, 0, arr.length - 1);
                             algoritmoNome = "Quick Sort";
+                            break;
+                        case 5:
+                            metodoOrdenacao = (arr) -> {
+                                int[] intArray = new int[arr.length];
+                                for (int i = 0; i < arr.length; i++) {
+                                    intArray[i] = arr[i];
+                                }
+                                Ordenadores.radixsort(intArray);
+                                for (int i = 0; i < arr.length; i++) {
+                                    arr[i] = intArray[i];
+                                }
+                            };
+                            algoritmoNome = "Radix Sort";
                             break;
                         default:
                             System.out.println("Opção inválida.");
@@ -142,6 +156,18 @@ public class Main {
                             break;
                         case "Quick Sort":
                             metodoOrdenacao = (arr) -> Ordenadores.quicksort(arr, 0, arr.length - 1);
+                            break;
+                        case "Radix Sort":
+                            metodoOrdenacao = (arr) -> {
+                                int[] intArray = new int[arr.length];
+                                for (int i = 0; i < arr.length; i++) {
+                                    intArray[i] = arr[i];
+                                }
+                                Ordenadores.radixsort(intArray);
+                                for (int i = 0; i < arr.length; i++) {
+                                    arr[i] = intArray[i];
+                                }
+                            };
                             break;
                     }
                 }
