@@ -1,4 +1,7 @@
-package teste;
+package acdtrabalho1;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Ordenadores{
 
@@ -124,6 +127,134 @@ public class Ordenadores{
         return i + 1;
     }
 
+    public static <T extends Comparable<T>> void shellsort(T[] array) {
+        int n = array.length;
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                T temp = array[i];
+                int j;
+                for (j = i; j >= gap && array[j - gap].compareTo(temp) > 0; j -= gap) {
+                    array[j] = array[j - gap];
+                }
+                array[j] = temp;
+            }
+        }
+    }
+    
+    public static void countingsort(Integer[] array) {
+        int max = Integer.MIN_VALUE;
+        for (int num : array) {
+            if (num > max) {
+                max = num;
+            }
+        }
+
+        int[] count = new int[max + 1];
+
+        // Conta a ocorrência de cada elemento
+        for (int num : array) {
+            count[num]++;
+        }
+
+        int index = 0;
+        // Reconstrói o array a partir do array de contagem
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                array[index++] = i;
+                count[i]--;
+            }
+        }
+    }
+    
+    public static void mergesort(Integer[] array) {
+        if (array.length < 2) {
+            return;
+        }
+        int mid = array.length / 2;
+        Integer[] left = new Integer[mid];
+        Integer[] right = new Integer[array.length - mid];
+
+        System.arraycopy(array, 0, left, 0, mid);
+        System.arraycopy(array, mid, right, 0, array.length - mid);
+
+        mergesort(left);
+        mergesort(right);
+        merge(array, left, right);
+    }
+
+    private static void merge(Integer[] array, Integer[] left, Integer[] right) {
+        int i = 0, j = 0, k = 0;
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) {
+                array[k++] = left[i++];
+            } else {
+                array[k++] = right[j++];
+            }
+        }
+        while (i < left.length) {
+            array[k++] = left[i++];
+        }
+        while (j < right.length) {
+            array[k++] = right[j++];
+        }
+    }
+    
+    
+    // Implementação do Bucket Sort
+    public static void bucketsort(Integer[] array) {
+        if (array.length <= 0) {
+            return;
+        }
+
+        // Encontra o valor máximo no array
+        int maxValue = array[0];
+        for (int num : array) {
+            if (num > maxValue) {
+                maxValue = num;
+            }
+        }
+
+        // Cria os buckets
+        int numBuckets = (int) Math.sqrt(array.length);
+        ArrayList<Integer>[] buckets = new ArrayList[numBuckets];
+        for (int i = 0; i < numBuckets; i++) {
+            buckets[i] = new ArrayList<>();
+        }
+
+        // Distribui os elementos nos buckets
+        for (int num : array) {
+            int bucketIndex = (num * numBuckets) / (maxValue + 1);
+            buckets[bucketIndex].add(num);
+        }
+
+        // Ordena cada bucket individualmente e combina os resultados
+        int index = 0;
+        for (ArrayList<Integer> bucket : buckets) {
+            Collections.sort(bucket);
+            for (int num : bucket) {
+                array[index++] = num;
+            }
+        }
+    }
+    
+    // Insertion Sort
+public static <T extends Comparable<T>> void insertionsort(T[] array) {
+    int n = array.length;
+    for (int i = 1; i < n; i++) {
+        T key = array[i];
+        int j = i - 1;
+
+        // Mover elementos que são maiores que a chave para uma posição à frente
+        // de sua posição atual
+        while (j >= 0 && array[j].compareTo(key) > 0) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+        array[j + 1] = key;
+    }
+}
+
+    
     // Radix Sort (aplicável apenas para arrays de inteiros)
     public static void radixsort(int[] array) {
         int max = getMax(array);
